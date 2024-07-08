@@ -1,5 +1,7 @@
 import { Layout, Menu } from "antd";
 import { FC } from "react";
+import { useCurrentUser } from "../../redux/features/auth/authSlice";
+import { useAppSelector } from "../../redux/hooks";
 import { adminPaths } from "../../routes/admin.routes";
 import { facultyPaths } from "../../routes/faculty.routes";
 import { studentPaths } from "../../routes/student.routes";
@@ -8,14 +10,16 @@ const { Sider } = Layout;
 
 interface IProps {}
 
-const userRole = {
+export const userRole = {
   admin: "admin",
   faculty: "faculty",
   student: "student",
 };
 
 const Sidebar: FC<IProps> = () => {
-  const role: keyof typeof userRole = "admin";
+  const { user } = useAppSelector(useCurrentUser);
+
+  const role: keyof typeof userRole = user?.role;
   let sidebarItems = null;
 
   switch (role) {
