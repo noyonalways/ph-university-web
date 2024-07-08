@@ -1,33 +1,34 @@
-import { Layout, Menu, MenuProps } from "antd";
+import { Layout, Menu } from "antd";
 import { FC } from "react";
 import { Outlet } from "react-router-dom";
+import { adminSidebarItems } from "../../routes/admin.routes";
 
 const { Header, Content, Footer, Sider } = Layout;
 
-const items: MenuProps["items"] = [
+/* const items: MenuProps["items"] = [
   {
-    key: "1",
+    key: "Dashboard",
     label: "Dashboard",
   },
   {
-    key: "2",
+    key: "User Management",
     label: "User Management",
     children: [
       {
-        key: "11",
-        label: "Admin",
+        key: "Create Admin",
+        label: <NavLink to="/admin/create-admin">Create Admin</NavLink>,
       },
       {
-        key: "22",
-        label: "Faculty",
+        key: "Create Faculty",
+        label: <NavLink to="/admin/create-faculty">Create Faculty</NavLink>,
       },
       {
-        key: "33",
-        label: "Student",
+        key: "Create Student",
+        label: <NavLink to="/admin/create-student">Create Student</NavLink>,
       },
     ],
   },
-];
+]; */
 
 interface IProps {}
 
@@ -61,13 +62,15 @@ const MainLayout: FC<IProps> = () => {
             src="https://i.ibb.co/c64q254/noyon-logo-dark.png"
             alt="logo"
           />
-          <span style={{ color: "white", fontWeight: 700 }}>PH University</span>
+          <span style={{ color: "white", fontWeight: 700, fontSize: "1.1rem" }}>
+            PH University
+          </span>
         </div>
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={["4"]}
-          items={items}
+          defaultSelectedKeys={["Dashboard"]}
+          items={adminSidebarItems}
         />
       </Sider>
       <Layout>
@@ -83,7 +86,7 @@ const MainLayout: FC<IProps> = () => {
           </div>
         </Content>
         <Footer style={{ textAlign: "center" }}>
-          Ant Design ©{new Date().getFullYear()} Created by Ant UED
+          PH University ©{new Date().getFullYear()} Created by Ant UED
         </Footer>
       </Layout>
     </Layout>
