@@ -1,9 +1,9 @@
-import { Layout, Menu } from "antd";
+import { Layout } from "antd";
 import { FC } from "react";
 import { Outlet } from "react-router-dom";
-import { adminSidebarItems } from "../../routes/admin.routes";
+import Sidebar from "./Sidebar";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content } = Layout;
 
 /* const items: MenuProps["items"] = [
   {
@@ -35,44 +35,7 @@ interface IProps {}
 const MainLayout: FC<IProps> = () => {
   return (
     <Layout style={{ height: "100vh" }}>
-      <Sider
-        breakpoint="lg"
-        collapsedWidth="0"
-        onBreakpoint={(broken) => {
-          console.log(broken);
-        }}
-        onCollapse={(collapsed, type) => {
-          console.log(collapsed, type);
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "10px 0px",
-          }}
-        >
-          <img
-            style={{
-              width: "40px",
-              height: "40px",
-              marginRight: "10px",
-            }}
-            src="https://i.ibb.co/c64q254/noyon-logo-dark.png"
-            alt="logo"
-          />
-          <span style={{ color: "white", fontWeight: 700, fontSize: "1.1rem" }}>
-            PH University
-          </span>
-        </div>
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={["Dashboard"]}
-          items={adminSidebarItems}
-        />
-      </Sider>
+      <Sidebar />
       <Layout>
         <Header style={{ padding: 0 }} />
         <Content style={{ margin: "24px 16px 0" }}>
@@ -85,9 +48,6 @@ const MainLayout: FC<IProps> = () => {
             <Outlet />
           </div>
         </Content>
-        <Footer style={{ textAlign: "center" }}>
-          PH University ©{new Date().getFullYear()} Created by Ant UED
-        </Footer>
       </Layout>
     </Layout>
   );
