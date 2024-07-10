@@ -1,8 +1,9 @@
 import { Button, Form, FormProps, Input, Spin } from "antd";
 import { FC } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import { useLoginMutation } from "../../redux/features/auth/authApi";
-import { setUser } from "../../redux/features/auth/authSlice";
+import { TUser, setUser } from "../../redux/features/auth/authSlice";
 import { useAppDispatch } from "../../redux/hooks";
 import { verifyToken } from "../../utils";
 
@@ -13,31 +14,45 @@ type FieldType = {
 };
 
 const Login: FC = () => {
-  const [login, { isLoading, error, isError }] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
-
-  if (isError) {
-    console.log("error", error);
-  }
 
   const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
-    console.log("Submit:", values);
+    const toastId = toast.loading("Logging in...", {
+      style: { padding: 20 },
+      duration: 2000,
+      position: "top-right",
+    });
 
-    const userInfo = {
-      id: values.userId,
-      password: values.password,
-    };
+    try {
+      const userInfo = {
+        id: values.userId,
+        password: values.password,
+      };
 
-    const res = await login(userInfo).unwrap();
+      const res = await login(userInfo).unwrap();
+      const user = verifyToken(res.data.accessToken) as unknown as TUser;
+      dispatch(setUser({ user: user, token: res.data.accessToken }));
 
-    const user = verifyToken(res.data.accessToken);
-
-    dispatch(setUser({ user: user, token: res.data.accessToken }));
-    navigate(from, { replace: true });
+      toast.success("Login successful", {
+        id: toastId,
+        style: { padding: 20 },
+        duration: 2000,
+        position: "top-right",
+      });
+      const from = `/${user.role}/dashboard`;
+      navigate(from, { replace: true });
+    } catch (err) {
+      toast.error(err?.data?.message, {
+        id: toastId,
+        style: { padding: 20 },
+        duration: 2000,
+        position: "top-right",
+      });
+    }
   };
 
   const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (error) => {
@@ -48,7 +63,6 @@ const Login: FC = () => {
     <div
       style={{
         display: "flex",
-
         justifyContent: "center",
         alignItems: "center",
         height: "100vh",
