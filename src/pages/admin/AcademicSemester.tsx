@@ -4,6 +4,13 @@ import { toast } from "sonner";
 import { useGetAllSemestersQuery } from "../../redux/features/academic-semester/academicSemesterApi";
 
 interface IProps {}
+type Semester = {
+  name: string;
+  code: string;
+  startMonth: string;
+  endMonth: string;
+  year: string;
+};
 
 const AcademicSemester: FC<IProps> = () => {
   const { data, error, isSuccess } = useGetAllSemestersQuery(undefined);
@@ -25,7 +32,7 @@ const AcademicSemester: FC<IProps> = () => {
     <div>
       <h1 style={{ marginBottom: "10px" }}>All Semesters</h1>
       <Row>
-        {data?.data?.map((semester) => (
+        {data?.data?.map((semester: Semester) => (
           <Col span={5}>
             <Card
               title={semester.name}
