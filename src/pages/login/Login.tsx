@@ -1,7 +1,10 @@
-import { Button, Form, FormProps, Input, Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
+import { Button, Col, FormProps, Row, Spin } from "antd";
 import { FC } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import PHForm from "../../components/forms/ph-from";
+import PHInput from "../../components/forms/ph-input";
 import { useLoginMutation } from "../../redux/features/auth/authApi";
 import { TUser, setUser } from "../../redux/features/auth/authSlice";
 import { useAppDispatch } from "../../redux/hooks";
@@ -14,13 +17,17 @@ type FieldType = {
 };
 
 const Login: FC = () => {
-  const [login, { isLoading }] = useLoginMutation();
   const dispatch = useAppDispatch();
-
   const navigate = useNavigate();
   const location = useLocation();
 
-  const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
+  const [login, { isLoading }] = useLoginMutation();
+  const defaultValues = {
+    userId: "A-0001",
+    password: "admin1234",
+  };
+
+  const onSubmit: FormProps<FieldType>["onFinish"] = async (values) => {
     const toastId = toast.loading("Logging in...", {
       style: { padding: 20 },
       duration: 2000,
@@ -32,21 +39,26 @@ const Login: FC = () => {
         id: values.userId,
         password: values.password,
       };
-
       const res = await login(userInfo).unwrap();
       const user = verifyToken(res.data.accessToken) as unknown as TUser;
       dispatch(setUser({ user: user, token: res.data.accessToken }));
-
       toast.success("Login successful", {
         id: toastId,
         style: { padding: 20 },
         duration: 2000,
         position: "top-right",
       });
-      const from = `/${user.role}/dashboard`;
+
+      const from =
+        location.state?.from?.pathname === "/"
+          ? `/${user.role}/dashboard`
+          : location.state?.from?.pathname;
+
       navigate(from, { replace: true });
     } catch (err) {
-      toast.error(err?.data?.message, {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const errorMessage = (err as any)?.data?.message || "An Error Occurred";
+      toast.error(errorMessage, {
         id: toastId,
         style: { padding: 20 },
         duration: 2000,
@@ -55,69 +67,32 @@ const Login: FC = () => {
     }
   };
 
-  const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (error) => {
-    console.log(error);
-  };
-
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-      }}
-    >
+    <Row justify="center" align="middle" style={{ height: "100vh" }}>
       {isLoading ? (
-        <Spin />
+        <Spin indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />} />
       ) : (
-        <Form
-          name="basic"
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
+        <Col
+          span={4}
           style={{
-            maxWidth: 600,
-            backgroundColor: "#f1f1f1",
-            padding: 20,
-            borderRadius: 10,
+            padding: "15px",
+            background: "#f0f2f5",
+            borderRadius: "5px",
           }}
-          initialValues={{ remember: true }}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-          autoComplete="off"
         >
-          <Form.Item<FieldType>
-            label="User Id"
-            name="userId"
-            rules={[{ required: true, message: "Please input your user id!" }]}
-          >
-            <Input value={"A-0001"} />
-          </Form.Item>
-
-          <Form.Item<FieldType>
-            label="Password"
-            name="password"
-            rules={[{ required: true, message: "Please input your password!" }]}
-          >
-            <Input.Password />
-          </Form.Item>
-
-          {/* <Form.Item<FieldType>
-      name="remember"
-      valuePropName="checked"
-      wrapperCol={{ offset: 8, span: 16 }}
-    >
-      <Checkbox>Remember me</Checkbox>
-    </Form.Item> */}
-
-          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button type="primary" htmlType="submit">
+          <h3 style={{ textAlign: "center", marginBottom: "10px" }}>
+            Login User
+          </h3>
+          <PHForm onSubmit={onSubmit} defaultValues={defaultValues}>
+            <PHInput type="text" name="userId" label="User Id" />
+            <PHInput type="password" name="password" label="Password" />
+            <Button htmlType="submit" type="primary" block>
               Login
             </Button>
-          </Form.Item>
-        </Form>
+          </PHForm>
+        </Col>
       )}
-    </div>
+    </Row>
   );
 };
 
