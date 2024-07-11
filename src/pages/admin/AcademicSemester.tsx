@@ -33,7 +33,7 @@ const AcademicSemester: FC<IProps> = () => {
       <h1 style={{ marginBottom: "10px" }}>All Semesters</h1>
       <Row>
         {data?.data?.map((semester: Semester) => (
-          <Col span={5}>
+          <Col xs={{ span: 24 }} md={{ span: 5 }}>
             <Card
               title={semester.name}
               bordered={false}

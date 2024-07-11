@@ -73,7 +73,8 @@ const Login: FC = () => {
         <Spin indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />} />
       ) : (
         <Col
-          span={4}
+          xs={{ span: 22 }}
+          md={{ span: 4 }}
           style={{
             padding: "15px",
             background: "#f0f2f5",
