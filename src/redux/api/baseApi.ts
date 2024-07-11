@@ -8,7 +8,7 @@ import { logout, setUser } from "../features/auth/authSlice";
 import { RootState } from "../store";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://phu-api.vercel.app/api/v1",
+  baseUrl: "https://phu-api.noyonrahman.xyz/api/v1",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
@@ -30,7 +30,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<FetchArgs> = async (
     console.log("Sending refresh token....");
 
     const res = await fetch(
-      "https://phu-api.vercel.app/api/v1/auth/refresh-token",
+      "https://phu-api.noyonrahman.xyz/api/v1/auth/refresh-token",
       {
         credentials: "include",
         method: "POST",
