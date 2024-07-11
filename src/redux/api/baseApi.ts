@@ -1,5 +1,5 @@
 import {
-  BaseQueryApi,
+  BaseQueryFn,
   FetchArgs,
   createApi,
   fetchBaseQuery,
@@ -19,10 +19,10 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-const baseQueryWithRefreshToken = async (
-  args: string | FetchArgs,
-  api: BaseQueryApi,
-  extraOptions: Record<string, never>
+const baseQueryWithRefreshToken: BaseQueryFn<FetchArgs> = async (
+  args,
+  api,
+  extraOptions
 ) => {
   let result = await baseQuery(args, api, extraOptions);
 
