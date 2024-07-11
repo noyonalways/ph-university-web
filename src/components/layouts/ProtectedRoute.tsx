@@ -1,5 +1,5 @@
 import { Navigate, useLocation } from "react-router-dom";
-import { useCurrentToken } from "../../redux/features/auth/authSlice";
+import { selectCurrentToken } from "../../redux/features/auth/authSlice";
 import { useAppSelector } from "../../redux/hooks";
 
 interface IProps {
@@ -7,12 +7,8 @@ interface IProps {
 }
 
 const ProtectedRoute: React.FC<IProps> = ({ children }) => {
-  const token = useAppSelector(useCurrentToken);
+  const token = useAppSelector(selectCurrentToken);
   const location = useLocation();
-
-  // Enhanced logging
-  console.log("Current location:", location);
-  console.log("Current token:", token);
 
   if (!token) {
     console.log("No token found, redirecting to login.");

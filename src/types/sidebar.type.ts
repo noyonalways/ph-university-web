@@ -15,3 +15,9 @@ export type TUserItem = {
   label: React.ReactNode;
   children?: TUserItem[];
 };
+
+export const UserRole = {
+  admin: "admin",
+  faculty: "faculty",
+  student: "student",
+};
