@@ -9,6 +9,7 @@ import { monthOptions, yearOptions } from "../../../constants/global";
 import { semesterOptions } from "../../../constants/semester";
 import { useAddAcademicSemesterMutation } from "../../../redux/features/admin/academicManagement.api";
 import { createAcademicSemesterSchema } from "../../../schemas/academicManagement.schema";
+import { TResponse } from "../../../types";
 
 interface IProps {}
 
@@ -32,7 +33,8 @@ const CreateAcademicSemester: FC<IProps> = () => {
     };
 
     try {
-      const res = await addAcademicSemester(semesterDate);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const res = (await addAcademicSemester(semesterDate)) as TResponse<any>;
       console.log(res);
       if (res.error) {
         toast.error(res.error?.data?.message, {
