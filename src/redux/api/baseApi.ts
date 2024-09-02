@@ -4,11 +4,12 @@ import {
   createApi,
   fetchBaseQuery,
 } from "@reduxjs/toolkit/query/react";
+import { toast } from "sonner";
 import { logout, setUser } from "../features/auth/authSlice";
 import { RootState } from "../store";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://phu-api.noyonrahman.xyz/api/v1",
+  baseUrl: import.meta.env.VITE_API_BASE_URL,
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
@@ -26,11 +27,18 @@ const baseQueryWithRefreshToken: BaseQueryFn<FetchArgs> = async (
 ) => {
   let result = await baseQuery(args, api, extraOptions);
 
+  if (result.error?.status === 404) {
+    toast.error((result.error.data as { message: string }).message, {
+      position: "top-right",
+      style: { padding: 20 },
+    });
+  }
+
   if (result.error?.status === 401) {
     console.log("Sending refresh token....");
 
     const res = await fetch(
-      "https://phu-api.noyonrahman.xyz/api/v1/auth/refresh-token",
+      `${import.meta.env.VITE_API_BASE_URL}/auth/refresh-token`,
       {
         credentials: "include",
         method: "POST",
@@ -54,4 +62,5 @@ export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: baseQueryWithRefreshToken,
   endpoints: () => ({}),
+  tagTypes: ["AcademicSemesters"],
 });

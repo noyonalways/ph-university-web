@@ -1,4 +1,4 @@
-import { Input } from "antd";
+import { Form, Input } from "antd";
 import { Controller } from "react-hook-form";
 
 interface PHInputProps {
@@ -9,20 +9,22 @@ interface PHInputProps {
 
 const PHInput: React.FC<PHInputProps> = ({ type, name, label }) => {
   return (
-    <div style={{ paddingBottom: "10px" }}>
-      <label style={{ display: "block", marginBottom: "5px" }} htmlFor={name}>
-        {label}
-      </label>
+    <>
       <Controller
         name={name}
         render={({ field }) => {
-          if (type === "password") {
-            return <Input.Password {...field} />;
-          }
-          return <Input {...field} />;
+          return (
+            <Form.Item label={label} htmlFor={name}>
+              {type === "password" ? (
+                <Input.Password {...field} id={name} />
+              ) : (
+                <Input {...field} type={type} id={name} />
+              )}
+            </Form.Item>
+          );
         }}
       />
-    </div>
+    </>
   );
 };
 

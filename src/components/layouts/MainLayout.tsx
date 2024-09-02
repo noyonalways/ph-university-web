@@ -51,7 +51,12 @@ const MainLayout: FC<IProps> = () => {
             alignItems: "center",
           }}
         >
-          <Button onClick={handleLogout} type="primary" danger>
+          <Button
+            style={{ marginLeft: "auto" }}
+            onClick={handleLogout}
+            type="primary"
+            danger
+          >
             Logout
           </Button>
         </Header>
