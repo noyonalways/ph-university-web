@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Col, Flex } from "antd";
+import { Button, Col, Row } from "antd";
 import { FC } from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
@@ -59,8 +59,8 @@ const CreateAcademicSemester: FC<IProps> = () => {
   };
 
   return (
-    <Flex align="center" justify="center">
-      <Col span={6}>
+    <Row justify="center" align="middle">
+      <Col span={24} md={{ span: 6 }}>
         <PHForm
           onSubmit={onSubmit}
           resolver={zodResolver(createAcademicSemesterSchema)}
@@ -76,7 +76,7 @@ const CreateAcademicSemester: FC<IProps> = () => {
           <Button htmlType="submit">Submit</Button>
         </PHForm>
       </Col>
-    </Flex>
+    </Row>
   );
 };
 

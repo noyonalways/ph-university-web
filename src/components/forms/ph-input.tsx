@@ -12,9 +12,17 @@ const PHInput: React.FC<PHInputProps> = ({ type, name, label }) => {
     <>
       <Controller
         name={name}
-        render={({ field }) => {
+        render={({ field, fieldState: { error } }) => {
           return (
-            <Form.Item label={label} htmlFor={name}>
+            <Form.Item
+              label={label}
+              htmlFor={name}
+              validateStatus={error ? "error" : "validating"}
+              help={error && error.message}
+              style={{
+                marginBottom: error && "32px",
+              }}
+            >
               {type === "password" ? (
                 <Input.Password {...field} id={name} />
               ) : (

@@ -19,6 +19,7 @@ const PHSelect: FC<IProps> = ({ label, name, options }) => {
           help={error && error.message}
           style={{
             marginBottom: error && "32px",
+            width: "100%",
           }}
         >
           <Select {...field} options={options} />
