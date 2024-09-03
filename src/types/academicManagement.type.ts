@@ -29,3 +29,10 @@ export type TAcademicFaculty = {
   _id: string;
   name: string;
 };
+
+// academic department
+export type TAcademicDepartment = {
+  _id: string;
+  name: string;
+  academicFaculty: TAcademicFaculty;
+};

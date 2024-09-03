@@ -5,9 +5,10 @@ interface PHInputProps {
   type: string;
   name: string;
   label: string;
+  size?: "large" | "middle" | "small";
 }
 
-const PHInput: React.FC<PHInputProps> = ({ type, name, label }) => {
+const PHInput: React.FC<PHInputProps> = ({ type, name, label, size }) => {
   return (
     <>
       <Controller
@@ -24,9 +25,9 @@ const PHInput: React.FC<PHInputProps> = ({ type, name, label }) => {
               }}
             >
               {type === "password" ? (
-                <Input.Password {...field} id={name} />
+                <Input.Password size={size} {...field} id={name} />
               ) : (
-                <Input {...field} type={type} id={name} />
+                <Input size={size} {...field} type={type} id={name} />
               )}
             </Form.Item>
           );

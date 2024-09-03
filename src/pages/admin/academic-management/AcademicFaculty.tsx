@@ -1,4 +1,4 @@
-import { Table, TableColumnsType, TableProps } from "antd";
+import { Col, Row, Table, TableColumnsType, TableProps } from "antd";
 import { useGetAcademicFacultiesQuery } from "../../../redux/features/admin/academicManagement.api";
 import { TAcademicFaculty } from "../../../types";
 
@@ -33,13 +33,17 @@ const AcademicFaculty: React.FC<IProps> = () => {
   };
 
   return (
-    <Table
-      loading={isFetching}
-      columns={columns}
-      dataSource={tableData}
-      onChange={onChange}
-      showSorterTooltip={{ target: "sorter-icon" }}
-    />
+    <Row justify="center" align="middle">
+      <Col span={14} md={{ span: 12 }}>
+        <Table
+          loading={isFetching}
+          columns={columns}
+          dataSource={tableData}
+          onChange={onChange}
+          showSorterTooltip={{ target: "sorter-icon" }}
+        />
+      </Col>
+    </Row>
   );
 };
 

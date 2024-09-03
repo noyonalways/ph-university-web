@@ -5,7 +5,8 @@ import { toast } from "sonner";
 import PHForm from "../../../components/forms/ph-from";
 import PHInput from "../../../components/forms/ph-input";
 import { useAddAcademicFacultyMutation } from "../../../redux/features/admin/academicManagement.api";
-import { createAcademicFacultySchema } from "../../../schemas/academicManagement.schema";
+
+import { createAcademicFacultySchema } from "../../../schemas";
 import { TResponse } from "../../../types";
 
 interface IProps {}
