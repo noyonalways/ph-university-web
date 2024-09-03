@@ -1,4 +1,5 @@
 import { LoadingOutlined } from "@ant-design/icons";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Col, FormProps, Row, Spin } from "antd";
 import { FC } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -8,6 +9,7 @@ import PHInput from "../../components/forms/ph-input";
 import { useLoginMutation } from "../../redux/features/auth/authApi";
 import { TUser, setUser } from "../../redux/features/auth/authSlice";
 import { useAppDispatch } from "../../redux/hooks";
+import { userLoginSchema } from "../../schemas";
 import { verifyToken } from "../../utils";
 
 type FieldType = {
@@ -72,21 +74,22 @@ const Login: FC = () => {
       {isLoading ? (
         <Spin indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />} />
       ) : (
-        <Col
-          xs={{ span: 22 }}
-          md={{ span: 4 }}
-          style={{
-            padding: "15px",
-            background: "#f0f2f5",
-            borderRadius: "5px",
-          }}
-        >
+        <Col xs={{ span: 22 }} md={{ span: 4 }}>
           <h3 style={{ textAlign: "center", marginBottom: "10px" }}>
             Login User
           </h3>
-          <PHForm onSubmit={onSubmit} defaultValues={defaultValues}>
-            <PHInput type="text" name="userId" label="User Id" />
-            <PHInput type="password" name="password" label="Password" />
+          <PHForm
+            onSubmit={onSubmit}
+            defaultValues={defaultValues}
+            resolver={zodResolver(userLoginSchema)}
+          >
+            <PHInput type="text" name="userId" label="User Id" size="large" />
+            <PHInput
+              type="password"
+              name="password"
+              label="Password"
+              size="large"
+            />
             <Button htmlType="submit" type="primary" block>
               Login
             </Button>

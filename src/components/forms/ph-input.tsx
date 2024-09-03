@@ -5,20 +5,29 @@ interface PHInputProps {
   type: string;
   name: string;
   label: string;
+  size?: "large" | "middle" | "small";
 }
 
-const PHInput: React.FC<PHInputProps> = ({ type, name, label }) => {
+const PHInput: React.FC<PHInputProps> = ({ type, name, label, size }) => {
   return (
     <>
       <Controller
         name={name}
-        render={({ field }) => {
+        render={({ field, fieldState: { error } }) => {
           return (
-            <Form.Item label={label} htmlFor={name}>
+            <Form.Item
+              label={label}
+              htmlFor={name}
+              validateStatus={error ? "error" : "validating"}
+              help={error && error.message}
+              style={{
+                marginBottom: error && "32px",
+              }}
+            >
               {type === "password" ? (
-                <Input.Password {...field} id={name} />
+                <Input.Password size={size} {...field} id={name} />
               ) : (
-                <Input {...field} type={type} id={name} />
+                <Input size={size} {...field} type={type} id={name} />
               )}
             </Form.Item>
           );
