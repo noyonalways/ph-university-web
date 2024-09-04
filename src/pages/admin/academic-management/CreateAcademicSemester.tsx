@@ -5,9 +5,9 @@ import { FieldValues, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 import PHForm from "../../../components/forms/ph-from";
 import PHSelect from "../../../components/forms/ph-select";
-import { monthOptions, yearOptions } from "../../../constants/global";
+import { monthOptions, yearOptions } from "../../../constants";
 import { semesterOptions } from "../../../constants/semester";
-import { useAddAcademicSemesterMutation } from "../../../redux/features/admin/academicManagement.api";
+import { useAddAcademicSemesterMutation } from "../../../redux/features/admin";
 import { createAcademicSemesterSchema } from "../../../schemas/academicManagement.schema";
 import { TResponse } from "../../../types";
 

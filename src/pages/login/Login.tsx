@@ -75,9 +75,9 @@ const Login: FC = () => {
         <Spin indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />} />
       ) : (
         <Col xs={{ span: 22 }} md={{ span: 4 }}>
-          <h3 style={{ textAlign: "center", marginBottom: "10px" }}>
+          <h2 style={{ textAlign: "center", marginBottom: "10px" }}>
             Login User
-          </h3>
+          </h2>
           <PHForm
             onSubmit={onSubmit}
             defaultValues={defaultValues}

@@ -8,7 +8,7 @@ import PHSelect from "../../../components/forms/ph-select";
 import {
   useAddAcademicDepartmentMutation,
   useGetAcademicFacultiesQuery,
-} from "../../../redux/features/admin/academicManagement.api";
+} from "../../../redux/features/admin";
 import { createAcademicDepartmentSchema } from "../../../schemas";
 import { TResponse } from "../../../types";
 

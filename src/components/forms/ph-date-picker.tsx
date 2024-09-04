@@ -1,16 +1,13 @@
-import { Form, Select } from "antd";
-import { FC } from "react";
+import { DatePicker, Form } from "antd";
 import { Controller } from "react-hook-form";
 
 interface IProps {
   label: string;
   name: string;
   size?: "large" | "middle" | "small";
-  options: { value: string; label: string; disabled?: boolean }[] | undefined;
-  disabled?: boolean;
 }
 
-const PHSelect: FC<IProps> = ({ label, name, size, options, disabled }) => {
+const PHDatePicker: React.FC<IProps> = ({ label, name, size }) => {
   return (
     <Controller
       name={name}
@@ -24,16 +21,11 @@ const PHSelect: FC<IProps> = ({ label, name, size, options, disabled }) => {
             width: "100%",
           }}
         >
-          <Select
-            size={size}
-            {...field}
-            options={options}
-            disabled={disabled}
-          />
+          <DatePicker style={{ width: "100%" }} {...field} size={size} />
         </Form.Item>
       )}
     />
   );
 };
 
-export default PHSelect;
+export default PHDatePicker;

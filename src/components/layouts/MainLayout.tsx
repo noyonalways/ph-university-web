@@ -40,7 +40,7 @@ const MainLayout: FC<IProps> = () => {
     dispatch(logout());
   };
   return (
-    <Layout style={{ height: "100vh" }}>
+    <Layout>
       <Sidebar />
       <Layout>
         <Header
@@ -65,6 +65,7 @@ const MainLayout: FC<IProps> = () => {
             style={{
               padding: 24,
               minHeight: "100%",
+              height: "auto",
             }}
           >
             <Outlet />

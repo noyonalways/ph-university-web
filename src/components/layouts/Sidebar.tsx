@@ -31,6 +31,7 @@ const Sidebar: FC<IProps> = () => {
 
   return (
     <Sider
+      style={{ position: "sticky", top: 0, left: 0, height: "100vh" }}
       breakpoint="lg"
       collapsedWidth="0"
       onBreakpoint={(broken) => {
