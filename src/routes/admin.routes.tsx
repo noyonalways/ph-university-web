@@ -11,6 +11,8 @@ import {
   CreateAdmin,
   CreateFaculty,
   CreateStudent,
+  StudentDetails,
+  Students,
 } from "../pages/admin/user-management";
 
 export const adminPaths = [
@@ -58,9 +60,18 @@ export const adminPaths = [
     name: "User Management",
     children: [
       {
-        name: "Create Admin",
-        path: "create-admin",
-        element: <CreateAdmin />,
+        name: "Create Student",
+        path: "create-student",
+        element: <CreateStudent />,
+      },
+      {
+        name: "Students",
+        path: "students",
+        element: <Students />,
+      },
+      {
+        path: "students/:studentId",
+        element: <StudentDetails />,
       },
       {
         name: "Create Faculty",
@@ -68,9 +79,9 @@ export const adminPaths = [
         element: <CreateFaculty />,
       },
       {
-        name: "Create Student",
-        path: "create-student",
-        element: <CreateStudent />,
+        name: "Create Admin",
+        path: "create-admin",
+        element: <CreateAdmin />,
       },
     ],
   },

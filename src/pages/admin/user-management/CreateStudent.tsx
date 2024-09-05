@@ -1,5 +1,7 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Col, Divider, Form, Input, Row } from "antd";
 import { Controller, FieldValues, SubmitHandler } from "react-hook-form";
+import { toast } from "sonner";
 import PHDatePicker from "../../../components/forms/ph-date-picker";
 import PHForm from "../../../components/forms/ph-from";
 import PHInput from "../../../components/forms/ph-input";
@@ -10,57 +12,20 @@ import {
   useGetAcademicDepartmentsQuery,
   useGetAcademicSemestersQuery,
 } from "../../../redux/features/admin";
-
-const studentDummyData = {
-  password: "student1234",
-  student: {
-    name: {
-      firstName: "Student",
-      middleName: "test-student",
-      lastName: "One",
-    },
-    gender: "male",
-    dateOfBirth: "2000-01-01",
-    bloodGroup: "A+",
-
-    email: "student1@gmail.com",
-    contactNo: "+8801712345678",
-    emergencyContactNo: "0987654321",
-    presentAddress: "123 Main St, Anytown, USA",
-    permanentAddress: "456 Elm St, Anytown, USA",
-
-    guardian: {
-      fatherName: "James Doe",
-      fatherOccupation: "Engineer",
-      fatherContactNo: "1234567890",
-      motherName: "Jane Doe",
-      motherOccupation: "Doctor",
-      motherContactNo: "0987654321",
-    },
-
-    localGuardian: {
-      name: "Robert Smith",
-      occupation: "Teacher",
-      contactNo: "1122334455",
-      address: "789 Oak St, Anytown, USA",
-    },
-
-    admissionSemester: "666d094a977935f536aa6f0f",
-    academicDepartment: "666d0cd2977935f536aa6f1a",
-  },
-};
+import { createStudentSchema } from "../../../schemas/userManagement.schema";
+import { TResponse } from "../../../types";
 
 //! for development purpose
 const studentDefaultValues = {
   name: {
-    firstName: "Student",
-    middleName: "test-student",
-    lastName: "One",
+    firstName: "Noyon",
+    lastName: "Rahman",
   },
   gender: "male",
-  dateOfBirth: "",
+
   bloodGroup: "A+",
 
+  email: "noyonrahman2003@gmail.com",
   contactNo: "+8801712345678",
   emergencyContactNo: "0987654321",
   presentAddress: "123 Main St, Anytown, USA",
@@ -86,12 +51,9 @@ const studentDefaultValues = {
 interface IProps {}
 
 const CreateStudent: React.FC<IProps> = () => {
-  const [
-    addStudent,
-    { isLoading: isCreatingStudent, data: resStudentData, error },
-  ] = useCreateStudentMutation();
+  const [addStudent] = useCreateStudentMutation();
 
-  console.log({ isCreatingStudent, resStudentData, error });
+  // console.log({ isCreatingStudent, resStudentData, error });
 
   const { data: semesters, isLoading: isSemestersLoading } =
     useGetAcademicSemestersQuery(undefined);
@@ -111,11 +73,17 @@ const CreateStudent: React.FC<IProps> = () => {
     })) ?? [];
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const toastId = toast.loading("Creating...", {
+      position: "top-right",
+      style: { padding: 20 },
+    });
+
     const copyData = { ...data };
     delete copyData.image;
+    delete copyData.password;
 
     const studentData = {
-      password: "student1234",
+      password: data.password || "pass1234",
       student: copyData,
     };
 
@@ -123,10 +91,30 @@ const CreateStudent: React.FC<IProps> = () => {
     formData.append("data", JSON.stringify(studentData));
     formData.append("file", data.image);
 
-    // console.log(studentData);
-    await addStudent(formData);
-
-    // console.log(Object.fromEntries(formData));
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const res = (await addStudent(formData)) as TResponse<any>;
+      console.log(res);
+      if (res.error) {
+        toast.error(res.error?.data?.message, {
+          position: "top-right",
+          style: { padding: 20 },
+          id: toastId,
+        });
+      } else {
+        toast.success(res?.data?.message, {
+          position: "top-right",
+          style: { padding: 20 },
+          id: toastId,
+        });
+      }
+    } catch (err) {
+      toast.error("Something went wrong", {
+        position: "top-right",
+        style: { padding: 20 },
+        id: toastId,
+      });
+    }
 
     //! this for development purpose just for checking the data
     // console.log(Object.fromEntries(formData));
@@ -134,7 +122,11 @@ const CreateStudent: React.FC<IProps> = () => {
   return (
     <Row justify="center" align="middle">
       <Col span={24}>
-        <PHForm onSubmit={onSubmit} defaultValues={studentDefaultValues}>
+        <PHForm
+          onSubmit={onSubmit}
+          resolver={zodResolver(createStudentSchema)}
+          defaultValues={studentDefaultValues}
+        >
           <Divider>Personal Info</Divider>
           <Row gutter={8}>
             <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
@@ -163,15 +155,22 @@ const CreateStudent: React.FC<IProps> = () => {
               <Controller
                 name="image"
                 render={({ field: { onChange, value, ...field } }) => (
-                  <Form>
+                  <Form.Item label="Profile Image (Optional)">
                     <Input
                       value={value?.fileName}
                       type="file"
                       onChange={(e) => onChange(e.target.files?.[0])}
                       {...field}
                     />
-                  </Form>
+                  </Form.Item>
                 )}
+              />
+            </Col>
+            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+              <PHInput
+                label="Password (Optional)"
+                name="password"
+                type="text"
               />
             </Col>
           </Row>
