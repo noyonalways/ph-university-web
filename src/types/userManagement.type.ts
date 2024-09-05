@@ -3,7 +3,7 @@ export type TStudent = {
   id: string;
   user: User;
   name: Name;
-  gender: string;
+  gender: "male" | "female" | "other";
   dateOfBirth: string;
   email: string;
   contactNo: string;
