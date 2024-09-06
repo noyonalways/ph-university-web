@@ -8,8 +8,6 @@ const AdminDetails: React.FC<IProps> = () => {
   const params = useParams();
   const { data: admin, isLoading } = useGetSingleAdminQuery(params.adminId);
 
-  console.log(admin);
-
   return (
     <Card
       loading={isLoading}
@@ -17,6 +15,7 @@ const AdminDetails: React.FC<IProps> = () => {
       extra={
         admin?.profileImage ? (
           <Image
+            loading="lazy"
             width={100}
             height={100}
             src={admin?.profileImage}

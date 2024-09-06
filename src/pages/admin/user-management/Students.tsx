@@ -1,7 +1,7 @@
 import {
+  Avatar,
   Button,
   Col,
-  Image,
   Pagination,
   Row,
   Space,
@@ -27,28 +27,11 @@ const columns: TableColumnsType<TTableData> = [
       return (
         <>
           {item.profileImage ? (
-            <Image
-              src={item.profileImage}
-              width={40}
-              height={40}
-              style={{ borderRadius: "50%", objectFit: "cover" }}
-            />
+            <Avatar size="large" src={item?.profileImage} />
           ) : (
-            <span
-              style={{
-                background: "#1677ff",
-                color: "white",
-                width: "40px",
-                height: "40px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: "50%",
-                fontWeight: "500",
-              }}
-            >
-              {item.fullName.split("")[0]}
-            </span>
+            <Avatar size="large" style={{ backgroundColor: "#1677ff" }}>
+              {item.fullName[0]}
+            </Avatar>
           )}
         </>
       );

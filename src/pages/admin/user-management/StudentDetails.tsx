@@ -17,6 +17,7 @@ const StudentDetails: React.FC<IProps> = () => {
       extra={
         student?.profileImage ? (
           <Image
+            loading="lazy"
             width={100}
             height={100}
             src={student?.profileImage}

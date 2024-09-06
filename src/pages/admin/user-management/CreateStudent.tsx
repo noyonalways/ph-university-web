@@ -12,7 +12,7 @@ import {
   useGetAcademicDepartmentsQuery,
   useGetAcademicSemestersQuery,
 } from "../../../redux/features/admin";
-import { createStudentSchema } from "../../../schemas/userManagement.schema";
+import { createStudentSchema } from "../../../schemas";
 import { TResponse } from "../../../types";
 
 //! for development purpose
@@ -83,7 +83,7 @@ const CreateStudent: React.FC<IProps> = () => {
     delete copyData.password;
 
     const studentData = {
-      password: data.password || "pass1234",
+      password: data.password,
       student: copyData,
     };
 

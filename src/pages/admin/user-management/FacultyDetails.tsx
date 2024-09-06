@@ -10,8 +10,6 @@ const FacultyDetails: React.FC<IProps> = () => {
     params.facultyId
   );
 
-  console.log(faculty);
-
   return (
     <Card
       loading={isLoading}
@@ -19,6 +17,7 @@ const FacultyDetails: React.FC<IProps> = () => {
       extra={
         faculty?.profileImage ? (
           <Image
+            loading="lazy"
             width={100}
             height={100}
             src={faculty?.profileImage}
@@ -60,6 +59,9 @@ const FacultyDetails: React.FC<IProps> = () => {
           {(faculty?.user?.role === "student" && "Student") ||
             (faculty?.user?.role === "faculty" && "Faculty") ||
             (faculty?.user?.role === "admin" && "Admin")}
+        </Descriptions.Item>
+        <Descriptions.Item label="Designation">
+          {faculty?.designation}
         </Descriptions.Item>
         <Descriptions.Item label="Contact Number">
           {faculty?.contactNo}
