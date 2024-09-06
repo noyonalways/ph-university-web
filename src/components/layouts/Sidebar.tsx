@@ -1,6 +1,7 @@
 import { Layout, Menu } from "antd";
 import { ItemType, MenuItemType } from "antd/es/menu/interface";
 import { FC } from "react";
+import { Link } from "react-router-dom";
 import { selectCurrentUser } from "../../redux/features/auth/authSlice";
 import { useAppSelector } from "../../redux/hooks";
 import { adminPaths } from "../../routes/admin.routes";
@@ -42,7 +43,8 @@ const Sidebar: FC<IProps> = () => {
         console.log(collapsed, type);
       }}
     >
-      <div
+      <Link
+        to="/"
         style={{
           display: "flex",
           alignItems: "center",
@@ -62,7 +64,7 @@ const Sidebar: FC<IProps> = () => {
         <span style={{ color: "white", fontWeight: 700, fontSize: "1.1rem" }}>
           PH University
         </span>
-      </div>
+      </Link>
       <Menu
         theme="dark"
         mode="inline"

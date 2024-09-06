@@ -71,7 +71,7 @@ const CreateFaculty: React.FC<IProps> = () => {
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const res = (await addFaculty(formData)) as TResponse<any>;
-      console.log(res);
+      // console.log(res);
       if (res.error) {
         toast.error(res.error?.data?.message, {
           position: "top-right",

@@ -56,7 +56,7 @@ const CreateStudent: React.FC<IProps> = () => {
   // console.log({ isCreatingStudent, resStudentData, error });
 
   const { data: semesters, isLoading: isSemestersLoading } =
-    useGetAcademicSemestersQuery(undefined);
+    useGetAcademicSemestersQuery([{ name: "sort", value: "year" }]);
   const { data: departments, isLoading: isDepartmentsLoading } =
     useGetAcademicDepartmentsQuery(undefined);
 
@@ -94,7 +94,7 @@ const CreateStudent: React.FC<IProps> = () => {
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const res = (await addStudent(formData)) as TResponse<any>;
-      console.log(res);
+      // console.log(res);
       if (res.error) {
         toast.error(res.error?.data?.message, {
           position: "top-right",

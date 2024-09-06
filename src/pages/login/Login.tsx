@@ -24,10 +24,10 @@ const Login: FC = () => {
   const location = useLocation();
 
   const [login, { isLoading }] = useLoginMutation();
-  const defaultValues = {
-    userId: "A-0001",
-    password: "admin1234",
-  };
+  // const defaultValues = {
+  //   userId: "A-0001",
+  //   password: "admin1234",
+  // };
 
   const onSubmit: FormProps<FieldType>["onFinish"] = async (values) => {
     const toastId = toast.loading("Logging in...", {
@@ -80,7 +80,7 @@ const Login: FC = () => {
           </h2>
           <PHForm
             onSubmit={onSubmit}
-            defaultValues={defaultValues}
+            // defaultValues={defaultValues}
             resolver={zodResolver(userLoginSchema)}
           >
             <PHInput type="text" name="userId" label="User Id" size="large" />
