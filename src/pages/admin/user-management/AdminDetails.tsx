@@ -19,7 +19,7 @@ const AdminDetails: React.FC<IProps> = () => {
             width={100}
             height={100}
             src={admin?.profileImage}
-            style={{ borderRadius: "50%", padding: "10px" }}
+            style={{ borderRadius: "50%", padding: "10px", objectFit: "cover" }}
           />
         ) : (
           <span

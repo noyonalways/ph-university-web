@@ -1,3 +1,4 @@
+import { TResponseRedux } from "../../../types";
 import { baseApi } from "../../api/baseApi";
 
 const authApi = baseApi.injectEndpoints({
@@ -11,7 +12,21 @@ const authApi = baseApi.injectEndpoints({
         };
       },
     }),
+
+    // get me
+    getMe: builder.query({
+      query: () => {
+        return {
+          url: "/users/me",
+          method: "GET",
+        };
+      },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      transformResponse: (response: TResponseRedux<any>) => {
+        return response.data;
+      },
+    }),
   }),
 });
 
-export const { useLoginMutation } = authApi;
+export const { useLoginMutation, useGetMeQuery } = authApi;

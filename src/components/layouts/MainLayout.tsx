@@ -1,6 +1,7 @@
-import { Button, Layout } from "antd";
+import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
+import { Button, Dropdown, Layout, MenuProps } from "antd";
 import { FC } from "react";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { logout } from "../../redux/features/auth/authSlice";
 import { useAppDispatch } from "../../redux/hooks";
 import Sidebar from "./Sidebar";
@@ -39,6 +40,23 @@ const MainLayout: FC<IProps> = () => {
   const handleLogout = () => {
     dispatch(logout());
   };
+  const items: MenuProps["items"] = [
+    {
+      label: <Link to={`/me`}>My Profile</Link>,
+      key: "1",
+      icon: <UserOutlined />,
+    },
+    {
+      label: (
+        <Button onClick={handleLogout} type="primary" danger>
+          Logout
+        </Button>
+      ),
+      key: "2",
+      icon: <LogoutOutlined />,
+    },
+  ];
+
   return (
     <Layout>
       <Sidebar />
@@ -51,14 +69,11 @@ const MainLayout: FC<IProps> = () => {
             alignItems: "center",
           }}
         >
-          <Button
-            style={{ marginLeft: "auto" }}
-            onClick={handleLogout}
-            type="primary"
-            danger
-          >
-            Logout
-          </Button>
+          <Dropdown menu={{ items }} placement="bottomRight">
+            <Button shape="circle" size="large" style={{ marginLeft: "auto" }}>
+              <UserOutlined />
+            </Button>
+          </Dropdown>
         </Header>
         <Content style={{ margin: "24px 16px 0" }}>
           <div

@@ -90,7 +90,7 @@ const Login: FC = () => {
               label="Password"
               size="large"
             />
-            <Button htmlType="submit" type="primary" block>
+            <Button size="large" htmlType="submit" type="primary" block>
               Login
             </Button>
           </PHForm>

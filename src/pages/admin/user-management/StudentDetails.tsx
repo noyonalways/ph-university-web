@@ -21,7 +21,7 @@ const StudentDetails: React.FC<IProps> = () => {
             width={100}
             height={100}
             src={student?.profileImage}
-            style={{ borderRadius: "50%", padding: "10px" }}
+            style={{ borderRadius: "50%", padding: "10px", objectFit: "cover" }}
           />
         ) : (
           <span
