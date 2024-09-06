@@ -50,6 +50,15 @@ const StudentDetails: React.FC<IProps> = () => {
           {`${student?.name?.firstName} ${student?.name?.lastName}`}
         </Descriptions.Item>
         <Descriptions.Item label="Email">{student?.email}</Descriptions.Item>
+        <Descriptions.Item label="Status">
+          {(student?.user?.status === "in-progress" && "Active") ||
+            (student?.user?.status === "blocked" && "Blocked")}
+        </Descriptions.Item>
+        <Descriptions.Item label="Role">
+          {(student?.user?.role === "student" && "Student") ||
+            (student?.user?.role === "faculty" && "Faculty") ||
+            (student?.user?.role === "admin" && "Admin")}
+        </Descriptions.Item>
         <Descriptions.Item label="Contact Number">
           {student?.contactNo}
         </Descriptions.Item>

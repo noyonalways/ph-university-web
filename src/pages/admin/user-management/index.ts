@@ -1,5 +1,9 @@
+export { default as AdminDetails } from "./AdminDetails";
+export { default as Admins } from "./Admins";
 export { default as CreateAdmin } from "./CreateAdmin";
 export { default as CreateFaculty } from "./CreateFaculty";
 export { default as CreateStudent } from "./CreateStudent";
+export { default as Faculties } from "./Faculties";
+export { default as FacultyDetails } from "./FacultyDetails";
 export { default as StudentDetails } from "./StudentDetails";
 export { default as Students } from "./Students";

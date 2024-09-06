@@ -11,7 +11,7 @@ import {
 } from "antd";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useGetStudentsQuery } from "../../../redux/features/admin";
+import { useGetFacultiesQuery } from "../../../redux/features/admin";
 import { TQueryParam, TStudent } from "../../../types";
 
 type TTableData = Pick<
@@ -60,7 +60,7 @@ const columns: TableColumnsType<TTableData> = [
     key: "fullName",
   },
   {
-    title: "Roll No",
+    title: "ID No",
     key: "id",
     dataIndex: "id",
   },
@@ -90,7 +90,7 @@ const columns: TableColumnsType<TTableData> = [
     render: (item) => {
       return (
         <Space>
-          <Link to={`/admin/students/${item?.key}`}>
+          <Link to={`/admin/faculties/${item?.key}`}>
             <Button>Details</Button>
           </Link>
           <Button>Update</Button>
@@ -104,11 +104,11 @@ const columns: TableColumnsType<TTableData> = [
 
 interface IProps {}
 
-const Students: React.FC<IProps> = () => {
+const Faculties: React.FC<IProps> = () => {
   const [params, setParams] = useState<TQueryParam[]>([]);
   const [page, setPage] = useState(1);
 
-  const { data: studentsData, isFetching } = useGetStudentsQuery([
+  const { data: studentsData, isFetching } = useGetFacultiesQuery([
     { name: "page", value: page },
     ...params,
   ]);
@@ -184,4 +184,4 @@ const Students: React.FC<IProps> = () => {
   );
 };
 
-export default Students;
+export default Faculties;

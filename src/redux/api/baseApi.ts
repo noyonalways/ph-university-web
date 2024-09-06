@@ -27,13 +27,6 @@ const baseQueryWithRefreshToken: BaseQueryFn<FetchArgs> = async (
 ) => {
   let result = await baseQuery(args, api, extraOptions);
 
-  if (result.error?.status === 404) {
-    toast.error((result.error.data as { message: string }).message, {
-      position: "top-right",
-      style: { padding: 20 },
-    });
-  }
-
   if (result.error?.status === 401) {
     console.log("Sending refresh token....");
 
@@ -55,6 +48,14 @@ const baseQueryWithRefreshToken: BaseQueryFn<FetchArgs> = async (
       api.dispatch(logout());
     }
   }
+
+  if (result.error?.status === 404) {
+    toast.error((result.error.data as { message: string }).message, {
+      position: "top-right",
+      style: { padding: 20 },
+    });
+  }
+
   return result;
 };
 
@@ -67,5 +68,7 @@ export const baseApi = createApi({
     "AcademicFaculties",
     "AcademicDepartments",
     "Students",
+    "Faculty",
+    "Admin",
   ],
 });

@@ -11,7 +11,7 @@ import {
 } from "antd";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useGetStudentsQuery } from "../../../redux/features/admin";
+import { useGetAdminsQuery } from "../../../redux/features/admin";
 import { TQueryParam, TStudent } from "../../../types";
 
 type TTableData = Pick<
@@ -60,7 +60,7 @@ const columns: TableColumnsType<TTableData> = [
     key: "fullName",
   },
   {
-    title: "Roll No",
+    title: "ID No",
     key: "id",
     dataIndex: "id",
   },
@@ -75,9 +75,9 @@ const columns: TableColumnsType<TTableData> = [
     dataIndex: "contactNo",
   },
   {
-    title: "Department",
-    key: "academicDepartment",
-    dataIndex: "academicDepartment",
+    title: "Designation",
+    key: "designation",
+    dataIndex: "designation",
   },
   {
     title: "Status",
@@ -90,7 +90,7 @@ const columns: TableColumnsType<TTableData> = [
     render: (item) => {
       return (
         <Space>
-          <Link to={`/admin/students/${item?.key}`}>
+          <Link to={`/admin/admins/${item?.key}`}>
             <Button>Details</Button>
           </Link>
           <Button>Update</Button>
@@ -104,11 +104,11 @@ const columns: TableColumnsType<TTableData> = [
 
 interface IProps {}
 
-const Students: React.FC<IProps> = () => {
+const Admins: React.FC<IProps> = () => {
   const [params, setParams] = useState<TQueryParam[]>([]);
   const [page, setPage] = useState(1);
 
-  const { data: studentsData, isFetching } = useGetStudentsQuery([
+  const { data: studentsData, isFetching } = useGetAdminsQuery([
     { name: "page", value: page },
     ...params,
   ]);
@@ -122,8 +122,8 @@ const Students: React.FC<IProps> = () => {
       id,
       email,
       profileImage,
-      academicDepartment: { name },
       user: { status },
+      designation,
       contactNo,
     }) => ({
       key: _id,
@@ -131,8 +131,8 @@ const Students: React.FC<IProps> = () => {
       email,
       id,
       contactNo,
+      designation,
       profileImage,
-      academicDepartment: name,
       status:
         (status === "in-progress" && "Active") ||
         (status === "blocked" && "Blocked"),
@@ -184,4 +184,4 @@ const Students: React.FC<IProps> = () => {
   );
 };
 
-export default Students;
+export default Admins;

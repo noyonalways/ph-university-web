@@ -8,9 +8,13 @@ import {
 } from "../pages/admin/academic-management";
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import {
+  AdminDetails,
+  Admins,
   CreateAdmin,
   CreateFaculty,
   CreateStudent,
+  Faculties,
+  FacultyDetails,
   StudentDetails,
   Students,
 } from "../pages/admin/user-management";
@@ -79,9 +83,27 @@ export const adminPaths = [
         element: <CreateFaculty />,
       },
       {
+        name: "Faculties",
+        path: "faculties",
+        element: <Faculties />,
+      },
+      {
+        path: "faculties/:facultyId",
+        element: <FacultyDetails />,
+      },
+      {
         name: "Create Admin",
         path: "create-admin",
         element: <CreateAdmin />,
+      },
+      {
+        name: "Admins",
+        path: "admins",
+        element: <Admins />,
+      },
+      {
+        path: "admins/:adminId",
+        element: <AdminDetails />,
       },
     ],
   },
