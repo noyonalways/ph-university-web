@@ -1,4 +1,5 @@
 import { Layout, Menu } from "antd";
+import { ItemType, MenuItemType } from "antd/es/menu/interface";
 import { FC } from "react";
 import { selectCurrentUser } from "../../redux/features/auth/authSlice";
 import { useAppSelector } from "../../redux/hooks";
@@ -66,7 +67,7 @@ const Sidebar: FC<IProps> = () => {
         theme="dark"
         mode="inline"
         defaultSelectedKeys={["Dashboard"]}
-        items={sidebarItems}
+        items={sidebarItems as ItemType<MenuItemType>[]}
       />
     </Sider>
   );

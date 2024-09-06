@@ -1,6 +1,5 @@
 import { Card, Descriptions, Image } from "antd";
 import { useGetMeQuery } from "../../redux/features/auth/authApi";
-import { TAdmin } from "../../types";
 
 interface IProps {}
 
@@ -10,10 +9,6 @@ const GetMe: React.FC<IProps> = () => {
     refetchOnReconnect: true,
     refetchOnMountOrArgChange: true,
   });
-
-  if (currentUser.user.role === "admin") {
-    currentUser as TAdmin;
-  }
 
   return (
     <Card

@@ -63,6 +63,11 @@ const columns: TableColumnsType<TTableData> = [
     dataIndex: "academicDepartment",
   },
   {
+    title: "Designation",
+    key: "designation",
+    dataIndex: "designation",
+  },
+  {
     title: "Status",
     key: "status",
     dataIndex: "status",
@@ -107,6 +112,7 @@ const Faculties: React.FC<IProps> = () => {
       profileImage,
       academicDepartment: { name },
       user: { status },
+      designation,
       contactNo,
     }) => ({
       key: _id,
@@ -115,6 +121,7 @@ const Faculties: React.FC<IProps> = () => {
       id,
       contactNo,
       profileImage,
+      designation,
       academicDepartment: name,
       status:
         (status === "in-progress" && "Active") ||

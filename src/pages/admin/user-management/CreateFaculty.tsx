@@ -147,7 +147,7 @@ const CreateFaculty: React.FC<IProps> = () => {
               <PHInput
                 label="Password (Optional)"
                 name="password"
-                type="text"
+                type="password"
               />
             </Col>
           </Row>

@@ -12,7 +12,7 @@ export type TRoute = {
 
 export type TUserItem =
   | {
-      key: string;
+      key?: string;
       label: React.ReactNode;
       children?: TUserItem[];
     }

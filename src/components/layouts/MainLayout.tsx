@@ -1,7 +1,8 @@
 import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Dropdown, Layout, MenuProps } from "antd";
+import { Avatar, Button, Dropdown, Layout, MenuProps } from "antd";
 import { FC } from "react";
 import { Link, Outlet } from "react-router-dom";
+import { useGetMeQuery } from "../../redux/features/auth/authApi";
 import { logout } from "../../redux/features/auth/authSlice";
 import { useAppDispatch } from "../../redux/hooks";
 import Sidebar from "./Sidebar";
@@ -40,6 +41,13 @@ const MainLayout: FC<IProps> = () => {
   const handleLogout = () => {
     dispatch(logout());
   };
+
+  const { data: currentUser } = useGetMeQuery(undefined, {
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
+    refetchOnMountOrArgChange: true,
+  });
+
   const items: MenuProps["items"] = [
     {
       label: <Link to={`/me`}>My Profile</Link>,
@@ -71,7 +79,7 @@ const MainLayout: FC<IProps> = () => {
         >
           <Dropdown menu={{ items }} placement="bottomRight">
             <Button shape="circle" size="large" style={{ marginLeft: "auto" }}>
-              <UserOutlined />
+              <Avatar src={currentUser?.profileImage} size="large" />
             </Button>
           </Dropdown>
         </Header>
