@@ -1,13 +1,23 @@
-import AcademicDepartment from "../pages/admin/academic-management/AcademicDepartment";
-import AcademicFaculty from "../pages/admin/academic-management/AcademicFaculty";
-import AcademicSemester from "../pages/admin/academic-management/AcademicSemester";
-import CreateAcademicDepartment from "../pages/admin/academic-management/CreateAcademicDepartment";
-import CreateAcademicFaculty from "../pages/admin/academic-management/CreateAcademicFaculty";
-import CreateAcademicSemester from "../pages/admin/academic-management/CreateAcademicSemester";
+import {
+  AcademicDepartment,
+  AcademicFaculty,
+  AcademicSemester,
+  CreateAcademicDepartment,
+  CreateAcademicFaculty,
+  CreateAcademicSemester,
+} from "../pages/admin/academic-management";
 import AdminDashboard from "../pages/admin/AdminDashboard";
-import CreateAdmin from "../pages/admin/CreateAdmin";
-import CreateFaculty from "../pages/admin/CreateFaculty";
-import CreateStudent from "../pages/admin/CreateStudent";
+import {
+  AdminDetails,
+  Admins,
+  CreateAdmin,
+  CreateFaculty,
+  CreateStudent,
+  Faculties,
+  FacultyDetails,
+  StudentDetails,
+  Students,
+} from "../pages/admin/user-management";
 
 export const adminPaths = [
   {
@@ -54,9 +64,18 @@ export const adminPaths = [
     name: "User Management",
     children: [
       {
-        name: "Create Admin",
-        path: "create-admin",
-        element: <CreateAdmin />,
+        name: "Create Student",
+        path: "create-student",
+        element: <CreateStudent />,
+      },
+      {
+        name: "Students",
+        path: "students",
+        element: <Students />,
+      },
+      {
+        path: "students/:studentId",
+        element: <StudentDetails />,
       },
       {
         name: "Create Faculty",
@@ -64,9 +83,27 @@ export const adminPaths = [
         element: <CreateFaculty />,
       },
       {
-        name: "Create Student",
-        path: "create-student",
-        element: <CreateStudent />,
+        name: "Faculties",
+        path: "faculties",
+        element: <Faculties />,
+      },
+      {
+        path: "faculties/:facultyId",
+        element: <FacultyDetails />,
+      },
+      {
+        name: "Create Admin",
+        path: "create-admin",
+        element: <CreateAdmin />,
+      },
+      {
+        name: "Admins",
+        path: "admins",
+        element: <Admins />,
+      },
+      {
+        path: "admins/:adminId",
+        element: <AdminDetails />,
       },
     ],
   },

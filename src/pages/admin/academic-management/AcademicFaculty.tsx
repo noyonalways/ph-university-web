@@ -1,5 +1,5 @@
 import { Col, Row, Table, TableColumnsType, TableProps } from "antd";
-import { useGetAcademicFacultiesQuery } from "../../../redux/features/admin/academicManagement.api";
+import { useGetAcademicFacultiesQuery } from "../../../redux/features/admin";
 import { TAcademicFaculty } from "../../../types";
 
 type TTableData = Pick<TAcademicFaculty, "name">;
@@ -34,7 +34,7 @@ const AcademicFaculty: React.FC<IProps> = () => {
 
   return (
     <Row justify="center" align="middle">
-      <Col span={14} md={{ span: 12 }}>
+      <Col span={24} md={{ span: 12 }}>
         <Table
           loading={isFetching}
           columns={columns}

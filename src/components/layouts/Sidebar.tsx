@@ -1,5 +1,7 @@
 import { Layout, Menu } from "antd";
+import { ItemType, MenuItemType } from "antd/es/menu/interface";
 import { FC } from "react";
+import { Link } from "react-router-dom";
 import { selectCurrentUser } from "../../redux/features/auth/authSlice";
 import { useAppSelector } from "../../redux/hooks";
 import { adminPaths } from "../../routes/admin.routes";
@@ -31,6 +33,7 @@ const Sidebar: FC<IProps> = () => {
 
   return (
     <Sider
+      style={{ position: "sticky", top: 0, left: 0, height: "100vh" }}
       breakpoint="lg"
       collapsedWidth="0"
       onBreakpoint={(broken) => {
@@ -40,7 +43,8 @@ const Sidebar: FC<IProps> = () => {
         console.log(collapsed, type);
       }}
     >
-      <div
+      <Link
+        to="/"
         style={{
           display: "flex",
           alignItems: "center",
@@ -60,12 +64,12 @@ const Sidebar: FC<IProps> = () => {
         <span style={{ color: "white", fontWeight: 700, fontSize: "1.1rem" }}>
           PH University
         </span>
-      </div>
+      </Link>
       <Menu
         theme="dark"
         mode="inline"
         defaultSelectedKeys={["Dashboard"]}
-        items={sidebarItems}
+        items={sidebarItems as ItemType<MenuItemType>[]}
       />
     </Sider>
   );

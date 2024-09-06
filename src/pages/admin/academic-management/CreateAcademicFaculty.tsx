@@ -4,8 +4,7 @@ import { FieldValues, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 import PHForm from "../../../components/forms/ph-from";
 import PHInput from "../../../components/forms/ph-input";
-import { useAddAcademicFacultyMutation } from "../../../redux/features/admin/academicManagement.api";
-
+import { useAddAcademicFacultyMutation } from "../../../redux/features/admin";
 import { createAcademicFacultySchema } from "../../../schemas";
 import { TResponse } from "../../../types";
 
