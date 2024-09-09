@@ -1,7 +1,9 @@
+import { ExclamationCircleFilled } from "@ant-design/icons";
 import {
   Avatar,
   Button,
   Col,
+  Modal,
   Pagination,
   Row,
   Space,
@@ -11,79 +13,20 @@ import {
 } from "antd";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useGetAdminsQuery } from "../../../redux/features/admin";
-import { TQueryParam, TStudent } from "../../../types";
+import { toast } from "sonner";
+import {
+  useChangeUserStatusMutation,
+  useGetAdminsQuery,
+} from "../../../redux/features/admin";
+import { useGetMeQuery } from "../../../redux/features/auth/authApi";
+import { TQueryParam, TResponse, TStudent, TUserRoles } from "../../../types";
+
+const { confirm } = Modal;
 
 type TTableData = Pick<
   TStudent,
   "fullName" | "id" | "email" | "contactNo" | "profileImage"
 >;
-
-const columns: TableColumnsType<TTableData> = [
-  {
-    title: "Profile Image",
-    key: "item",
-    render: (item) => {
-      return (
-        <>
-          {item.profileImage ? (
-            <Avatar size="large" src={item?.profileImage} />
-          ) : (
-            <Avatar size="large" style={{ backgroundColor: "#1677ff" }}>
-              {item.fullName[0]}
-            </Avatar>
-          )}
-        </>
-      );
-    },
-  },
-  {
-    title: "Name",
-    dataIndex: "fullName",
-    key: "fullName",
-  },
-  {
-    title: "ID No",
-    key: "id",
-    dataIndex: "id",
-  },
-  {
-    title: "Email",
-    key: "email",
-    dataIndex: "email",
-  },
-  {
-    title: "Contact No",
-    key: "contactNo",
-    dataIndex: "contactNo",
-  },
-  {
-    title: "Designation",
-    key: "designation",
-    dataIndex: "designation",
-  },
-  {
-    title: "Status",
-    key: "status",
-    dataIndex: "status",
-  },
-  {
-    title: "Action",
-    key: "x",
-    render: (item) => {
-      return (
-        <Space>
-          <Link to={`/admin/admins/${item?.key}`}>
-            <Button>Details</Button>
-          </Link>
-          <Button>Update</Button>
-          <Button>Block</Button>
-        </Space>
-      );
-    },
-    width: "1%",
-  },
-];
 
 interface IProps {}
 
@@ -91,21 +34,165 @@ const Admins: React.FC<IProps> = () => {
   const [params, setParams] = useState<TQueryParam[]>([]);
   const [page, setPage] = useState(1);
 
-  const { data: studentsData, isFetching } = useGetAdminsQuery([
+  const { data: adminsData, isFetching } = useGetAdminsQuery([
     { name: "page", value: page },
     ...params,
   ]);
 
-  const metaData = studentsData?.meta;
+  const [changeUserStatus] = useChangeUserStatusMutation();
 
-  const tableData = studentsData?.data?.map(
+  const { data: getMeData } = useGetMeQuery(undefined);
+
+  const showDeleteConfirm = (user: {
+    key: string;
+    userId: string;
+    id: string;
+    email: string;
+    needsPasswordChange: boolean;
+    role: TUserRoles;
+    status: "Blocked" | "Active";
+    isDeleted: boolean;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+  }) => {
+    confirm({
+      title:
+        user?.status === "Blocked"
+          ? "Do you want to unblock this user?"
+          : "Do you want to block this user?",
+      icon: <ExclamationCircleFilled />,
+      content:
+        user?.status === "Blocked"
+          ? "This user will be unblocked."
+          : "This user will be blocked.",
+      okText: "Yes",
+      okType: "danger",
+      closable: true,
+      cancelText: "No",
+      async onOk() {
+        const toastId = toast.loading("Updating...", {
+          position: "top-right",
+          style: { padding: 20 },
+        });
+
+        const status = user?.status === "Blocked" ? "in-progress" : "blocked";
+        try {
+          const res = (await changeUserStatus({
+            userId: user?.userId,
+            data: { status },
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          })) as TResponse<any>;
+
+          if (res.error) {
+            toast.error(res.error?.data?.message, {
+              position: "top-right",
+              style: { padding: 20 },
+              id: toastId,
+            });
+          } else {
+            toast.success(res?.data?.message, {
+              position: "top-right",
+              style: { padding: 20 },
+              id: toastId,
+            });
+          }
+        } catch (err) {
+          toast.error("Something went wrong", {
+            position: "top-right",
+            style: { padding: 20 },
+            id: toastId,
+          });
+        }
+      },
+      onCancel() {
+        console.log("Cancel");
+      },
+    });
+  };
+
+  const columns: TableColumnsType<TTableData> = [
+    {
+      title: "Profile Image",
+      key: "item",
+      render: (item) => {
+        return (
+          <>
+            {item.profileImage ? (
+              <Avatar size="large" src={item?.profileImage} />
+            ) : (
+              <Avatar size="large" style={{ backgroundColor: "#1677ff" }}>
+                {item.fullName[0]}
+              </Avatar>
+            )}
+          </>
+        );
+      },
+    },
+    {
+      title: "Name",
+      dataIndex: "fullName",
+      key: "fullName",
+    },
+    {
+      title: "ID No",
+      key: "id",
+      dataIndex: "id",
+    },
+    {
+      title: "Email",
+      key: "email",
+      dataIndex: "email",
+    },
+    {
+      title: "Contact No",
+      key: "contactNo",
+      dataIndex: "contactNo",
+    },
+    {
+      title: "Designation",
+      key: "designation",
+      dataIndex: "designation",
+    },
+    {
+      title: "Status",
+      key: "status",
+      dataIndex: "status",
+    },
+    {
+      title: "Action",
+      key: "x",
+      render: (item) => {
+        return (
+          <Space>
+            <Link to={`/admin/students/${item?.key}`}>
+              <Button>Details</Button>
+            </Link>
+            <Button>Update</Button>
+            <Button
+              onClick={() => showDeleteConfirm(item)}
+              // disabled the because the user is not allowed to block/unblock himself
+              disabled={getMeData?.user?._id === item?.userId}
+            >
+              {item?.status === "Blocked" ? "Unblock" : "Block"}
+            </Button>
+          </Space>
+        );
+      },
+      width: "1%",
+    },
+  ];
+
+  const metaData = adminsData?.meta;
+
+  const tableData = adminsData?.data?.map(
     ({
       _id,
       fullName,
       id,
       email,
       profileImage,
-      user: { status },
+      user: { status, _id: userId },
       designation,
       contactNo,
     }) => ({
@@ -119,6 +206,7 @@ const Admins: React.FC<IProps> = () => {
       status:
         (status === "in-progress" && "Active") ||
         (status === "blocked" && "Blocked"),
+      userId,
     })
   );
 
