@@ -230,6 +230,7 @@ const Admins: React.FC<IProps> = () => {
   return (
     <>
       <Table
+        scroll={{ x: 1280 }}
         loading={isFetching}
         columns={columns}
         dataSource={tableData}
