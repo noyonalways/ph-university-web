@@ -230,6 +230,7 @@ const Faculties: React.FC<IProps> = () => {
   return (
     <>
       <Table
+        scroll={{ x: 1536 }}
         loading={isFetching}
         columns={columns}
         dataSource={tableData}
