@@ -167,7 +167,7 @@ const Faculties: React.FC<IProps> = () => {
       render: (item) => {
         return (
           <Space>
-            <Link to={`/admin/students/${item?.key}`}>
+            <Link to={`/admin/faculties/${item?.key}`}>
               <Button>Details</Button>
             </Link>
             <Button>Update</Button>
