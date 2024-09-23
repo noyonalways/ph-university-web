@@ -165,7 +165,7 @@ const Admins: React.FC<IProps> = () => {
       render: (item) => {
         return (
           <Space>
-            <Link to={`/admin/students/${item?.key}`}>
+            <Link to={`/admin/admins/${item?.key}`}>
               <Button>Details</Button>
             </Link>
             <Button>Update</Button>
